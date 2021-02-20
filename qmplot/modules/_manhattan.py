@@ -18,13 +18,15 @@ from ._utils import General
 
 
 # learn something from "https://github.com/reneshbedre/bioinfokit/blob/38fb4966827337f00421119a69259b92bb67a7d0/bioinfokit/visuz.py"
-def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", xtick_label_set=None, CHR=None,
-                  logp=True, marker=".", color="#3B5488,#53BBD5", alpha=0.8,
-                  suggestiveline=1e-5, genomewideline=5e-8, sign_line_cols="#D62728,#2CA02C",
+def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, ax=None,
+                  marker=".", color="#3B5488,#53BBD5", alpha=0.8,
+                  title=None, xlabel="Chromosome", ylabel=r"$-log_{10}{(P)}$",
+                  xtick_label_set=None, CHR=None, xticklabel_kws=None,
+                  suggestiveline=1e-5, genomewideline=5e-8, sign_line_cols="#D62728,#2CA02C", hline_kws=None,
                   sign_marker_p=None, sign_marker_color="r",
                   is_annotate_topsnp=False, annotext_kws=None, ld_block_size=50000,
-                  title=None, xlabel="Chromosome", ylabel=r"$-log_{10}{(P)}$", hline_kws=None, xticklabel_kws=None,
-                  ax=None, is_show=True, dpi=300, figname=None, **kwargs):
+                  is_show=True, dpi=300, figname=None, **kwargs):
+
     """Creates a manhattan plot from PLINK assoc output (or any data frame with chromosome, position, and p-value).
 
     Parameters
@@ -32,28 +34,21 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", xtick_label
     data : DataFrame.
         A DataFrame with columns "#CHROM," "POS," "P," and optionally, "SNP."
 
-    chrom : String.
-        A string denoting the column name for chromosome. Defaults to PLINK2.x's "#CHROM".
+    chrom : string, default is "#CHROM", optional
+        A string denoting the column name for chromosome. Defaults to be PLINK2.x's "#CHROM".
         Said column must be a character.
 
-    pos : String.
+    pos : string, default is "POS", optional.
         A string denoting the column name for chromosomal position. Default to PLINK2.x's "POS".
         Said column must be numeric.
 
-    pv : String.
+    pv : string, default is "P", optional.
         A string denoting the column name for chromosomal p-value. Default to PLINK2.x's "P".
         Said column must be float type.
 
-    snp : String.
+    snp : string, default is "ID", optional.
         A string denoting the column name for the SNP name (rs number) or the column which you want to
         represent the variants. Default to PLINK2.x's "P". Said column should be a character.
-
-    CHR : string, or None, optional
-        Choice the specific chromosome to plot. And the x-axis will be the
-        position of this chromosome instead of the chromosome id.
-
-        CAUTION: this parameter could not be used with ``xtick_label_set``
-                 together.
 
     logp : bool, optional
         If TRUE, the -log10 of the p-value is plotted. It isn't very useful
@@ -61,24 +56,20 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", xtick_label
         other genome-wide plots, for example, peak heights, bayes factors, test
         statistics, other "scores," etc. default: True
 
-    suggestiveline : float.
-        Where to draw a suggestive line. Default -log10(le-5). Set to None to disable.
-
-    genomewideline : float.
-        Where to draw a genome-wide significant line. Default -log10(5e-8). Set to None to disable.
-
-    sign_line_cols : matplotlib color, optional, default: "#3B5488,#53BBD5". Color used for the plot elements.
-              Could hex-code or rgb, e.g: "#D62728,#2CA02C" or 'rb'
-        Set the line color for ``suggestiveline`` and ``genomewideline``.
-
-    sign_marker_p : float.
-        A P-value threshold (suggestive to be 1e-6)for marking the significant SNP sites. Default None.
-
-    sign_marker_color : matplotlib color, optional, default: "r".
-        Define a color code for significant SNP sites.
-
     ax : matplotlib axis, optional
         Axis to plot on, otherwise uses current axis.
+
+    marker : matplotlib markers for scatter plot, default is "o", optional
+
+    color : matplotlib color, optional, default: color_palette('colorful', 4)
+        Color used for the plot elements. Could hex-code or rgb,
+        e.g: '#3B5488,#53BBD5' or 'rb'
+
+    alpha : float scalar, default is 0.8, optional
+        The alpha blending value, between 0(transparent) and 1(opaque)
+
+    title : string, or None, optional
+        Set the title of the current plot.
 
     xlabel: string, optional
         Set the x axis label of the current axis.
@@ -86,25 +77,57 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", xtick_label
     ylabel: string, optional
         Set the y axis label of the current axis.
 
-    color : matplotlib color, optional, default: color_palette('colorful', 4) 
-        Color used for the plot elements. Could hex-code or rgb, 
-        e.g: '#3B5488,#53BBD5' or 'rb'
-
     xtick_label_set : a set. optional
         Set the current x axis ticks of the current axis.
 
-    alpha : scalar, or 0.8(default), optional
-        The alpha blending value, between 0(transparent) and 1(opaque)
+    CHR : string, or None, optional
+        Select a specific chromosome to plot. And the x-axis will be the
+        position of this chromosome instead of the chromosome id.
 
-    hline_kws : key, value pairings, or None, optional
-        keyword arguments for plotting ax.axhline: ``suggestiveline`` and ``genomewideline``.
+        CAUTION: this parameter could not be used with ``xtick_label_set``
+                 together.
 
     xticklabel_kws : key, value pairings, or None, optional
         Other keyword arguments are passed to set xtick labels in
         maplotlib.axis.Axes.set_xticklabels.
 
+    suggestiveline : float or None, default is 1e-5, optional
+        Where to draw a suggestive ax.axhline. Set None to be disable.
+
+    genomewideline : float or None, default is 5e-8
+        Where to draw a genome-wide significant ax.axhline. Set None to be disable.
+
+    sign_line_cols : matplotlib color, default: "#D62728,#2CA02C", optional.
+        Color used for ``suggestiveline`` and ``genomewideline``.
+        Could be hex-code or rgb, e.g: "#D62728,#2CA02C" or 'rb'
+
+    hline_kws : key, value pairings, or None, optional
+        keyword arguments for plotting ax.axhline(``suggestiveline`` and ``genomewideline``)
+        except the "color" key-pair.
+
+    sign_marker_p : float or None, default None, optional.
+        A P-value threshold (suggestive to be 1e-6) for marking the significant SNP sites.
+
+    sign_marker_color : matplotlib color, default: "r", optional.
+        Define a color code for significant SNP sites.
+
+    is_annotate_topsnp : boolean, default is False, optional.
+        Annotate the top SNP or not for the significant locus.
+
     annotext_kws: key, value pairings, or None, optional
         keyword arguments for plotting plt.annotate in`` matplotlib.pyplot.annotate(text, xy, *args, **kwargs)``
+
+    ld_block_size : integer, default is 50000, optional
+        Set the size of LD block which for finding top SNP. And the top SNP's annotation represent the block.
+
+    is_show : boolean, default is True, optional
+        Display the plot or not.
+
+    dpi : float or 'figure', default is 300, optional.
+        The resolution in dots-pet-inch for plot. If 'figure', use the figure's dpi value.
+
+    figname : string, or None, optional
+        Output plot file name.
 
     kwargs : key, value pairings, optional
         Other keyword arguments are passed to ``plt.scatter()`` or
@@ -125,10 +148,6 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", xtick_label
 
     2. The right and top spines of the plot have been set to be
        invisible by hand.
-
-    3. I'm going to add a parameter calls ``highlight`` to highlight a
-       set of interesting positions (SNPs). And this parameter takes a 
-       list-like value.
 
     Examples
     --------
@@ -197,8 +216,8 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", xtick_label
         ...               is_show=False,  # do not show the figure
         ...               figname="output_manhattan_plot.png",
         ...               ax=ax)
-
     """
+
     if not isinstance(data, DataFrame):
         raise ValueError("[ERROR] Input data must be a pandas.DataFrame.")
     if chrom not in data:
@@ -273,11 +292,14 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", xtick_label
     ax.scatter(x, y, c=c, alpha=alpha, edgecolors="none", **kwargs)
 
     # Add GWAS significant lines
+    if "color" in hline_kws:
+        hline_kws.pop("color")
+
     sign_line_cols = sign_line_cols.split(",") if "," in sign_line_cols else sign_line_cols
     if suggestiveline is not None:
-        ax.axhline(y=-np.log10(suggestiveline), color=sign_line_cols[0], **hline_kws)
+        ax.axhline(y=-np.log10(suggestiveline) if logp else suggestiveline, color=sign_line_cols[0], **hline_kws)
     if genomewideline is not None:
-        ax.axhline(y=-np.log10(genomewideline), color=sign_line_cols[1], **hline_kws)
+        ax.axhline(y=-np.log10(genomewideline) if logp else genomewideline, color=sign_line_cols[1], **hline_kws)
 
     # Plotting the Top SNP for each significant block
     if is_annotate_topsnp:

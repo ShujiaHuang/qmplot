@@ -26,7 +26,7 @@ def parse_commandline_args():
                                 "the Top Significant SNPs. Default: PLINK2.x's \"ID\"", default="ID")
 
     cmdparser.add_argument("--dpi", dest="dpi", type=float,
-                           help="The resolution of the figure in dots-pet-inch. [300]", default=300)
+                           help="The resolution in dots-pet-inch for plot. [300]", default=300)
     cmdparser.add_argument("--open-gui", dest="open_gui", action="store_true",
                            help="Set to be GUI backend, which can show the figure.")
 

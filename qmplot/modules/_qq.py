@@ -60,45 +60,59 @@ def ppoints(n, a=0.5):
     return (np.arange(n, dtype=float) + 1 - a) / (n + 1 - 2 * a)
 
 
-def qqplot(data, other=None, ax=None, marker="o", title=None, xlabel=None, ylabel=None, color=None,
-           ablinecolor="r", alpha=0.8, logp=True, is_show=True, dpi=300, figname=None, **kwargs):
+def qqplot(data, other=None, logp=True, ax=None, marker="o", color=None, alpha=0.8, title=None, xlabel=None,
+           ylabel=None, ablinecolor="r", is_show=True, dpi=300, figname=None, **kwargs):
     """Creat Q-Q plot.
     **CAUSION: The x-axis(expected) is created from uniform distribution.**
 
     Parameters
     ----------
-    data : list, 1d-array, or Series
+    data : list, 1d-array-like, or Series
         Data to be plotted
 
-    other : array-like, ``Series`` of ``pandas`` or 1d array, or None, optional
+    other : list, 1d-array-like, Series or None, optional
         If provided, the sample quantiles of the `data` array-like object are 
         plotted against the sample quantiles of the `other` array-like object. 
         If not provided (default), the theoretical quantiles are used.
 
+    logp : bool, default is 'True', optional
+        If true, -log10 of the y_value(always be the p-value) is plotted.
+        It isn't very useful to plot raw p-values in GWAS QQ plot.
+
     ax : matplotlib axis, optional
         Axis to plot on, otherwise uses current axis.
 
-    xlabel: string, or None, optional
-        Set the x axis label of the current axis.
-        CAUSION: The x axis will always be the expected value.
-
-    ylabel: string, or None, optional
-        Set the y axis label of the current axis.
-        CAUSION: The y axis will always be the observed value.
+    marker : matplotlib markers for scatter plot, default is "o", optional
 
     color : matplotlib color, optional
         The dots color in the plot
 
-    ablinecolor: matplotlib color, default is 'r' (red), optional
-        Color for the abline in plot. if set ``ablinecolor=None`` 
-        means do not plot the abline.
-
     alpha : float scalar, default is 0.8, optional
         The alpha blending value, between 0(transparent) and 1(opaque)
 
-    logp : bool, default is 'True', optional
-        If true, -log10 of the y_value(always be the p-value) is plotted.
-        It isn't very useful to plot raw p-values in GWAS QQ plot.
+    title : string, or None, optional
+        Set the title of the current plot.
+
+    xlabel : string, or None, optional
+        Set the x axis label of the current axis.
+        CAUSION: The x axis will always be the expected value.
+
+    ylabel : string, or None, optional
+        Set the y axis label of the current axis.
+        CAUSION: The y axis will always be the observed value.
+
+    ablinecolor : matplotlib color, default is 'r' (red), optional
+        Color for the abline in plot. if set ``ablinecolor=None`` 
+        means do not plot the abline.
+
+    is_show : boolean, default is True, optional
+        Display the plot or not.
+
+    dpi : float or 'figure', default is 300, optional.
+        The resolution in dots-pet-inch for plot. If 'figure', use the figure's dpi value.
+
+    figname : string, or None, optional
+        Output plot file name.
 
     kwargs : key, value pairings, optional
         Other keyword arguments are passed to ``plt.scatter()``
@@ -118,7 +132,6 @@ def qqplot(data, other=None, ax=None, marker="o", title=None, xlabel=None, ylabe
        also be used for creating QQ plot for other data, which format 
        are list-like ::
         [value1, value2, ...] (all the values should between 0 and 1)
-
 
     See Also
     --------
