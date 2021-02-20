@@ -1,0 +1,14 @@
+venv/
+*.egg-info/
+dist/
+build/
+.ipynb_checkpoints/
+
+
+qmplot/utils/_adjust_text.py
+*.sh
+*.py[cod]
+*.so
+.*.swp
+.DS_Store
+.idea/
