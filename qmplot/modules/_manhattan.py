@@ -208,8 +208,8 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
         ...                             "xycoords": "data",
         ...                             "xytext": (15, +15),
         ...                             "textcoords": "offset points",
-        ...                             "bbox": dict(boxstyle="round", alpha=0.2),  # dict(boxstyle="round", fc="0.8")
-        ...                             "arrowprops": dict(arrowstyle="->",  # "-|>"
+        ...                             "bbox": dict(boxstyle="round", alpha=0.2), 
+        ...                             "arrowprops": dict(arrowstyle="->",
         ...                                                connectionstyle="angle,angleA=0,angleB=80,rad=10",
         ...                                                alpha=0.6, relpos=(0, 0))},
         ...               dpi=300,  # set the resolution of plot figure

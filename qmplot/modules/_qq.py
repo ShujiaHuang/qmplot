@@ -327,7 +327,7 @@ def qqnorm(data, ax=None, xlabel='Expected', ylabel='Observed', color=None, abli
     return ax
 
 
-def _do_plot(x, y, ax=None, color=None, ablinecolor='r', alpha=0.8, **kwargs):
+def _do_plot(x, y, ax=None, color=None, ablinecolor="r", alpha=0.8, **kwargs):
     """
     Boiler plate plotting function for the `qqplot` and `qqnorm`
 
