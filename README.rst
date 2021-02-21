@@ -96,6 +96,7 @@ have PLINK2.x associtation output. You can directly type
                                 PLINK2.x's "ID"
           --open-gui            Set to be GUI backend, which can show the figure.
 
+
 The following command will give you the two png plots with 300 dpi
 resolution:
 
@@ -118,6 +119,7 @@ The Q-Q plot looks like:
 Note: You can only modify the plots throught ``qmplot`` commandline
 options which whill be a big limitation when you want to make more
 change.
+
 
 2. Python package
 ~~~~~~~~~~~~~~~~~
@@ -156,6 +158,10 @@ and lightblue color scheme.
 .. figure:: tests/output_manhattan_plot.png
    :alt: output\_manhattan\_plot.png
 
+
+The parameter of ``manhattanplot()`` defined the name of output figure file 
+and the format of the figure file is depanded on the file suffix, which could 
+be ".png", ".jpg", or ".pdf".
 
 When run with default parameters, the ``manhattanplot()`` function draws 
 horizontal lines drawn at $-log_{10}{(1e-5)}$ for "suggestive" associations 
@@ -263,8 +269,7 @@ the example:
 .. figure:: tests/test.manhattan.png
    :alt: manhattan
 
-Find more detail about the parameters can be found by typing ``manhattanplot?`` in
-IPython console.
+Find more detail about the parameters can be found by typing ``manhattanplot?`` in IPython console.
 
 
 QQ plot with defualt parameters.
@@ -319,4 +324,6 @@ characters, colors, points sizes, etc. Here is the example:
    :alt: qqplot
 
 Find more detail about the parameters by typing ``qqplot?`` in IPython console.
+
+
 
