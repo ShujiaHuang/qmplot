@@ -1,3 +1,3 @@
-from .modules import manhattanplot, qqplot
+from .modules import manhattanplot, qqplot, qqnorm
 
-__all__ = ["manhattanplot", "qqplot"]
+__all__ = ["manhattanplot", "qqplot", "qqnorm"]
