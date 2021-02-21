@@ -3,6 +3,7 @@ venv/
 dist/
 build/
 .ipynb_checkpoints/
+__pycache__/
 
 
 qmplot/utils/_adjust_text.py
