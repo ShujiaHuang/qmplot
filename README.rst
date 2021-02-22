@@ -68,7 +68,7 @@ is the format preview of "gwas\_plink\_result.tsv":
 ~~~~~~~~~~~~~~~~~~~~~~
 
 This is the simplest way to plot manhattan and QQ plots if you already
-have PLINK2.x associtation output. You can directly type
+have PLINK2.x association output. You can directly type
 ``qmplot --help`` and will find all the options below:
 
 .. code:: bash
