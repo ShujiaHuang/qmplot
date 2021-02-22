@@ -117,8 +117,7 @@ The Q-Q plot looks like:
 
 
 Note: You can only modify the plots throught ``qmplot`` commandline
-options which whill be a big limitation when you want to make more
-change.
+options which is a big limitation when you want to make more change.
 
 
 2. Python package
@@ -131,7 +130,7 @@ Manhattan plot with default parameters:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The ``manhattanplot()`` function in **qmplot** package takes a data frame 
-with columns containing the chromosome name/id, chromosomal position, 
+with columns containing the chromosomal name/id, chromosomal position, 
 P-value and optionally the SNP name(e.g. rsID in dbSNP). 
 
 By default, ``manhattanplot()`` looks fro column names corresponding to 
