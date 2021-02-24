@@ -51,10 +51,10 @@ def main():
     if data["#CHROM"][0].startswith("chr"):
         cut_chr_label = True
         print("[WARNING] Find 'chr' in the column of chromosomal name, this program will enhance "
-              "cut the 3 characters. If you want to keep the original name please write a new "
-              "Python codes by using qmplot as the Python package and import manhattanplot() "
-              "function from qmplot then set the plot the figure by yourself. You can find the "
-              "tutorial in github: <https://github.com/ShujiaHuang/qmplot>")
+              "cut the 3 characters when generate manhattan plot. If you want to keep the original "
+              "name please write new Python codes by using qmplot as a Python package and import "
+              "manhattanplot() function from qmplot then generate the plot by yourself. You can find "
+              "more detail of tutorials in github: <https://github.com/ShujiaHuang/qmplot>.")
 
     data["#CHROM"] = data["#CHROM"].map((lambda x: x[3:] if cut_chr_label and x.startswith("chr") else x))
 
