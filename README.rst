@@ -241,7 +241,7 @@ the example:
 
         # Create a manhattan plot
         f, ax = plt.subplots(figsize=(12, 4), facecolor='w', edgecolor='k')
-        xtick = set(list(map(str, range(1, 15))) + ['16', '18', '20', '22', 'X'])
+        xtick = set(['chr' + i for i in list(map(str, range(1, 10))) + ['11', '13', '15', '18', '21', 'X']])
         manhattanplot(data=data,
                       marker=".",
                       sign_marker_p=1e-6,  # Genome wide significant p-value
