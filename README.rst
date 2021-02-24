@@ -3,8 +3,8 @@ QMplot: A Python tool for creating high-quality manhattan and Q-Q plots from GWA
 
 **qmplot** is a handy, user-friendly tool and Python package that allows for quick and 
 flexible of publication-ready manhattan and Q-Q plots directly from PLINK association 
-results files or any data frame with columns containing chromosome id, chromosomal position, 
-P-value and optionally the SNP name(e.g. rsID in dbSNP).
+results files or any data frame with columns containing chromosomal name, chromosomal 
+position, P-value and optionally the SNP name(e.g. rsID in dbSNP).
 
 
 This library is inspired by
