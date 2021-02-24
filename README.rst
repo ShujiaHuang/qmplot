@@ -291,7 +291,7 @@ The ``qqplot()`` function takes a vector of P-values as its the only required ar
 
             df = pd.read_table("tests/data/gwas_plink_result.tsv", sep="\t")
             df = df.dropna(how="any", axis=0)  # clean data
-            ax = qqplot(data=list(df["P"]), figname="output_QQ_plot.png")
+            ax = qqplot(data=df["P"], figname="output_QQ_plot.png")
 
 .. figure:: tests/output_QQ_plot.png
 
@@ -313,7 +313,7 @@ characters, colors, points sizes, etc. Here is the example:
             df = df.dropna(how="any", axis=0)  # clean data
             # Create a Q-Q plot
             f, ax = plt.subplots(figsize=(6, 6), facecolor="w", edgecolor="k")
-            qqplot(data=list(data["P"]),
+            qqplot(data=data["P"]),
                    marker="o",
                    title="Test",
                    xlabel=r"Expected $-log_{10}{(P)}$",
