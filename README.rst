@@ -186,6 +186,8 @@ can be move to different locations or turned off completely with the arguments
                        is_show=False,  # do not display the plot
                        figname="output_manhattan_plot.png")
 
+.. figure:: tests/output_manhattan_plot_xviertical_noline.png
+
 The behavior of the ``manhattanplot`` function changes slightly when results 
 from only a single chromosome are used. Here, instead of plotting alternating
 colors and chromosome ID on the x-axis, the SNP's position on the chromosome 
