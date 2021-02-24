@@ -249,7 +249,7 @@ the example:
                       snp="ID",
 
                       title="Test",
-                      xtick_label_set=xtick,  # CHR='8', # specific showing the chromosome 8th
+                      xtick_label_set=xtick,
                       xlabel="Chromosome",
                       ylabel=r"$-log_{10}{(P)}$",
 
