@@ -143,7 +143,6 @@ and lightblue color scheme.
 
 .. code:: python
 
-
         import pandas as pd
         from qmplot import manhattanplot
 
@@ -153,13 +152,22 @@ and lightblue color scheme.
             df = df.dropna(how="any", axis=0)  # clean data
             ax = manhattanplot(data=df, figname="output_manhattan_plot.png")
 
-
 .. figure:: tests/output_manhattan_plot.png
    :alt: output\_manhattan\_plot.png
 
+Rotate the x-axis tick label by setting ``xticklabel_kws`` to avoid label overlap:
+
+.. code:: python
+
+    ax = manhattanplot(data=df,
+                       xticklabel_kws={"rotation": "vertical"},  # set vertical(or other angle) label.
+                       figname="output_manhattan_plot.png")
+
+.. figure:: tests/output_manhattan_plot_xviertical.png
+
 
 The parameter of ``manhattanplot()`` defined the name of output figure file 
-and the format of the figure file is depanded on the file suffix, which could 
+and the format of the figure file is depended on the file suffix, which could
 be ".png", ".jpg", or ".pdf".
 
 When run with default parameters, the ``manhattanplot()`` function draws 
@@ -210,7 +218,7 @@ GWAS signal and annotate the Top SNP:
    :alt: output\_manhattan\_anno\_plot.png
 
 
-Additionally, highlighting SNPs of interst can be combined with limiting to a 
+Additionally, highlighting SNPs of interest can be combined with limiting to a
 single chromosome to enable "zooming" into a particular region containing SNPs 
 of interest.
 
