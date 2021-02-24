@@ -47,6 +47,17 @@ def main():
     data = pd.read_table(kwargs.input, sep="\t")
     data = data.dropna(how="any", axis=0)  # clean data
 
+    cut_chr_label = False
+    if data["#CHROM"][0].startswith("chr"):
+        cut_chr_label = True
+        print("[WARNING] Find 'chr' in the column of chromosomal name, this program will enhance "
+              "cut the 3 characters. If you want to keep the original name please write a new "
+              "Python codes by using qmplot as the Python package and import manhattanplot() "
+              "function from qmplot then set the plot the figure by yourself. You can find the "
+              "tutorial in github: <https://github.com/ShujiaHuang/qmplot>")
+
+    data["#CHROM"] = data["#CHROM"].map((lambda x: x[3:] if cut_chr_label and x.startswith("chr") else x))
+
     # common parameters for plotting
     plt_params = {
         "font.sans-serif": "Arial",
