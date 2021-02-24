@@ -107,13 +107,11 @@ resolution:
 The manhattan plot looks like:
 
 .. figure:: tests/test.manhattan.png
-   :alt: manhattanplot
 
 
 The Q-Q plot looks like:
 
 .. figure:: tests/test.QQ.png
-   :alt: qqplot
 
 
 Note: You can only modify the plots throught ``qmplot`` commandline
@@ -143,14 +141,14 @@ and lightblue color scheme.
 
 .. code:: python
 
-        import pandas as pd
-        from qmplot import manhattanplot
+    import pandas as pd
+    from qmplot import manhattanplot
 
-        if __name__ == "__main__":
+    if __name__ == "__main__":
 
-            df = pd.read_table("tests/data/gwas_plink_result.tsv", sep="\t")
-            df = df.dropna(how="any", axis=0)  # clean data
-            ax = manhattanplot(data=df, figname="output_manhattan_plot.png")
+        df = pd.read_table("tests/data/gwas_plink_result.tsv", sep="\t")
+        df = df.dropna(how="any", axis=0)  # clean data
+        ax = manhattanplot(data=df, figname="output_manhattan_plot.png")
 
 .. figure:: tests/output_manhattan_plot.png
    :alt: output\_manhattan\_plot.png
@@ -161,6 +159,7 @@ Rotate the x-axis tick label by setting ``xticklabel_kws`` to avoid label overla
 
     ax = manhattanplot(data=df,
                        xticklabel_kws={"rotation": "vertical"},  # set vertical(or other angle) label.
+                       is_show=False,  # do not display the plot
                        figname="output_manhattan_plot.png")
 
 .. figure:: tests/output_manhattan_plot_xviertical.png
@@ -178,11 +177,10 @@ can be move to different locations or turned off completely with the arguments
 
 .. code:: python
 
-    xtick = set(list(map(str, range(1, 15))) + ['16', '18', '20', '22', 'X'])
     ax = manhattanplot(data=df,
                        suggestiveline=None,  # Turn off suggestiveline
                        genomewideline=None,  # Turn off genomewideline
-                       xtick_label_set=xtick,
+                       xticklabel_kws={"rotation": "vertical"},
                        is_show=False,  # do not display the plot
                        figname="output_manhattan_plot.png")
 
@@ -213,12 +211,11 @@ GWAS signal and annotate the Top SNP:
                        xtick_label_set=xtick,
                        sign_marker_p=1e-6,  # highline the significant SNP with ``sign_marker_color`` color.
                        is_annotate_topsnp=True,  # annotate the top SNP
+                       xticklabel_kws={"rotation": "vertical"},
                        is_show=False,
                        figname="output_manhattan_anno_plot.png")
 
 .. figure:: tests/output_manhattan_anno_plot.png
-   :alt: output\_manhattan\_anno\_plot.png
-
 
 Additionally, highlighting SNPs of interest can be combined with limiting to a
 single chromosome to enable "zooming" into a particular region containing SNPs 
@@ -234,49 +231,47 @@ the example:
 
 .. code:: python
 
+    import pandas as pd
+    from qmplot import manhattanplot
 
-        import pandas as pd
-        from qmplot import manhattanplot
+    if __name__ == "__main__":
 
-        if __name__ == "__main__":
+        df = pd.read_table("tests/data/gwas_plink_result.tsv", sep="\t")
+        df = df.dropna(how="any", axis=0)  # clean data
 
-            df = pd.read_table("tests/data/gwas_plink_result.tsv", sep="\t")
-            df = df.dropna(how="any", axis=0)  # clean data
+        # Create a manhattan plot
+        f, ax = plt.subplots(figsize=(12, 4), facecolor='w', edgecolor='k')
+        xtick = set(list(map(str, range(1, 15))) + ['16', '18', '20', '22', 'X'])
+        manhattanplot(data=data,
+                      marker=".",
+                      sign_marker_p=1e-6,  # Genome wide significant p-value
+                      sign_marker_color="r",
+                      snp="ID",
 
-            # Create a manhattan plot
-            f, ax = plt.subplots(figsize=(12, 4), facecolor='w', edgecolor='k')
-            xtick = set(list(map(str, range(1, 15))) + ['16', '18', '20', '22', 'X'])
-            manhattanplot(data=data,
-                          marker=".",
-                          sign_marker_p=1e-6,  # Genome wide significant p-value
-                          sign_marker_color="r",
-                          snp="ID",
+                      title="Test",
+                      xtick_label_set=xtick,  # CHR='8', # specific showing the chromosome 8th
+                      xlabel="Chromosome",
+                      ylabel=r"$-log_{10}{(P)}$",
 
-                          title="Test",
-                          xtick_label_set=xtick,  # CHR='8', # specific showing the chromosome 8th
-                          xlabel="Chromosome",
-                          ylabel=r"$-log_{10}{(P)}$",
+                      sign_line_cols=["#D62728", "#2CA02C"],
+                      hline_kws={"linestyle": "--", "lw": 1.3},
 
-                          sign_line_cols=["#D62728", "#2CA02C"],
-                          hline_kws={"linestyle": "--", "lw": 1.3},
+                      is_annotate_topsnp=True,
+                      ld_block_size=50000,  # 50000 bp
+                      annotext_kws={"size": 12,  # The fontsize of annotate text
+                                    "xycoords": "data",
+                                    "xytext": (15, +15),
+                                    "textcoords": "offset points",
+                                    "bbox": dict(boxstyle="round", alpha=0.2),
+                                    "arrowprops": dict(arrowstyle="->",  # "-|>"
+                                                       connectionstyle="angle,angleA=0,angleB=80,rad=10",
+                                                       alpha=0.6, relpos=(0, 0))},
 
-                          is_annotate_topsnp=True,
-                          ld_block_size=50000,  # 50000 bp
-                          annotext_kws={"size": 12,  # The fontsize of annotate text
-                                        "xycoords": "data",
-                                        "xytext": (15, +15),
-                                        "textcoords": "offset points",
-                                        "bbox": dict(boxstyle="round", alpha=0.2), 
-                                        "arrowprops": dict(arrowstyle="->",  # "-|>"
-                                                           connectionstyle="angle,angleA=0,angleB=80,rad=10",
-                                                           alpha=0.6, relpos=(0, 0))},
-
-                          dpi=300,
-                          figname="output_manhattan_plot.png",
-                          ax=ax)
+                      dpi=300,
+                      figname="output_manhattan_plot.png",
+                      ax=ax)
 
 .. figure:: tests/test.manhattan.png
-   :alt: manhattan
 
 Find more detail about the parameters can be found by typing ``manhattanplot?`` in IPython console.
 
@@ -299,7 +294,6 @@ The ``qqplot()`` function takes a vector of P-values as its the only required ar
             ax = qqplot(data=list(df["P"]), figname="output_QQ_plot.png")
 
 .. figure:: tests/output_QQ_plot.png
-   :alt: output\_QQ\_plot.png
 
 
 A better QQ plot
@@ -309,7 +303,6 @@ Futher graphical parameters can be passed to ``qqplot()`` to control the plot ti
 characters, colors, points sizes, etc. Here is the example:
 
 .. code:: python
-
 
         import pandas as pd
         from qmplot import qqplot
@@ -330,7 +323,7 @@ characters, colors, points sizes, etc. Here is the example:
                    ax=ax)
 
 .. figure:: tests/test.QQ.png
-   :alt: qqplot
+
 
 Find more detail about the parameters by typing ``qqplot?`` in IPython console.
 
