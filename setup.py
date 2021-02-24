@@ -20,7 +20,7 @@ MAINTAINER_EMAIL = "huangshujia9@gmail.com"
 URL = "https://github.com/ShujiaHuang/qmplot"
 LICENSE = "BSD (3-clause)"
 DOWNLOAD_URL = "https://github.com/ShujiaHuang/qmplot"
-VERSION = "0.0.6"
+VERSION = "0.0.8"
 
 INSTALL_REQUIRES = [
     "numpy",
