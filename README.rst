@@ -271,7 +271,7 @@ the example:
                       figname="output_manhattan_plot.png",
                       ax=ax)
 
-.. figure:: tests/test.manhattan.png
+.. figure:: tests/better.manhattan.png
 
 Find more detail about the parameters can be found by typing ``manhattanplot?`` in IPython console.
 
