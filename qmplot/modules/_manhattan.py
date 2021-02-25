@@ -1,7 +1,7 @@
 """Plotting functions for manhattan plot.
 
 Copyright (c) Shujia Huang
-Date: 2016-01-23
+Date: 2021-02-21
 
 This model is based on brentp's script on github:
 https://github.com/brentp/bio-playground/blob/master/plots/manhattan-plot.py

@@ -1,7 +1,7 @@
 """Functions for plotting qq-plot.
 
 Copytright (c) Shujia Huang
-Date: 2016-01-28
+Date: 2021-02-21
 
 """
 import numpy as np
