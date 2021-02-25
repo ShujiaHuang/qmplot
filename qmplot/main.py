@@ -27,8 +27,8 @@ def parse_commandline_args():
 
     cmdparser.add_argument("--dpi", dest="dpi", type=float,
                            help="The resolution in dots-pet-inch for plot. [300]", default=300)
-    cmdparser.add_argument("--open-gui", dest="open_gui", action="store_true",
-                           help="Set to be GUI backend, which can show the figure.")
+    cmdparser.add_argument("--display", dest="display", action="store_true",
+                           help="Set to be GUI backend, which can display the figure.")
 
     args = cmdparser.parse_args()
 
@@ -38,9 +38,10 @@ def parse_commandline_args():
 def main():
     kwargs = parse_commandline_args()
 
-    import matplotlib
-    if not kwargs.open_gui:
+    if not kwargs.display:
+        import matplotlib
         matplotlib.use("agg")  # Using agg, which is a non-GUI backend, so cannot show the figure.
+
     import matplotlib.pyplot as plt
 
     # loading data
@@ -99,7 +100,7 @@ def main():
                                 },
 
                   dpi=kwargs.dpi,
-                  is_show=False,
+                  is_show=kwargs.display,
                   figname=kwargs.outprefix + ".manhattan.png",
                   ax=ax)
 
@@ -112,7 +113,7 @@ def main():
            ylabel=r"Observed $-log_{10}{(P)}$",
            figname=kwargs.outprefix + ".QQ.png",
            dpi=kwargs.dpi,
-           is_show=False,
+           is_show=kwargs.display,
            ax=ax)
 
     print(">>>>>>>>>>>>>>>>> Create Manhattan and Q-Q plots done <<<<<<<<<<<<<<<<<")
