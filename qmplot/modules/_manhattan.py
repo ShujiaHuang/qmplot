@@ -169,7 +169,7 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
     .. plot::
         :context: close-figs
 
-        >>> xtick = set(list(map(str, range(1, 15))) + ['16', '18', '20', '22', 'X'])
+        >>> xtick = set(['chr' + i for i in list(map(str, range(1, 10))) + ['11', '13', '15', '18', '21', 'X']])
         >>> manhattanplot(data=df, xlabel="Chromosome", ylabel=r"$-log_{10}{(P)}$",
         ...               xtick_label_set=xtick, figname="manhattan.png")
 
@@ -180,7 +180,7 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
         :context: close-figs
     
         >>> manhattanplot(data=df,
-        ...               hline_kws={"y": 3, "linestyle": "--", "lw": 1.3},
+        ...               hline_kws={"linestyle": "--", "lw": 1.3},
         ...               xlabel="Chromosome",
         ...               ylabel=r"$-log_{10}{(P)}$",
         ...               xtick_label_set = xtick)
@@ -191,7 +191,7 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
         :context: close-figs
 
         >>> manhattanplot(data=df,
-        ...               hline_kws={"y": 3, "linestyle": "--", "lw": 1.3},
+        ...               hline_kws={"linestyle": "--", "lw": 1.3},
         ...               xlabel="Chromosome",
         ...               ylabel=r"$-log_{10}{(P)}$",
         ...               xticklabel_kws={"rotation": "vertical"})
@@ -209,7 +209,7 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
         ...               sign_marker_color="r",
         ...               snp="ID",
         ...               title="Test",
-        ...               xtick_label_set=xtick,  # CHR='8', # specific showing the chromosome 8th
+        ...               xtick_label_set=xtick,
         ...               xlabel="Chromosome",
         ...               ylabel=r"$-log_{10}{(P)}$",
         ...               sign_line_cols=["#D62728", "#2CA02C"],

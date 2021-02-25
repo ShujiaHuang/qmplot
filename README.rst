@@ -68,8 +68,8 @@ is the format preview of "gwas\_plink\_result.tsv":
 ~~~~~~~~~~~~~~~~~~~~~~
 
 This is the simplest way to plot manhattan and QQ plots if you already
-have PLINK2.x association output. You can directly type
-``qmplot --help`` and will find all the options below:
+have PLINK2.x association output. You can directly type ``qmplot --help`` 
+and will find all the options below:
 
 .. code:: bash
 
@@ -166,7 +166,7 @@ Rotate the x-axis tick label by setting ``xticklabel_kws`` to avoid label overla
 
 
 The parameter of ``manhattanplot()`` defined the name of output figure file 
-and the format of the figure file is depended on the file suffix, which could
+and the format of the figure file depending on the file suffix, which could
 be ".png", ".jpg", or ".pdf".
 
 When run with default parameters, the ``manhattanplot()`` function draws 
@@ -194,12 +194,11 @@ is plotted on the x-axis:
 .. code:: python
 
     # plot only results on chromosome 8.
-    manhattanplot(data=df, CHR="8", xlabel="Chromosome 8", is_show=False,
+    manhattanplot(data=df, CHR="chr8", xlabel="Chromosome 8", is_show=False,
                   figname="output_chr8_manhattan_plot.png")
 
 
 .. figure:: tests/output_chr8_manhattan_plot.png
-   :alt: output\_chr8\_manhattan\_plot.png
 
 ``manhattanplot()`` funcion has the ability to highlight SNPs with significant 
 GWAS signal and annotate the Top SNP:
@@ -208,7 +207,6 @@ GWAS signal and annotate the Top SNP:
 .. code:: python
 
     ax = manhattanplot(data=df,
-                       xtick_label_set=xtick,
                        sign_marker_p=1e-6,  # highline the significant SNP with ``sign_marker_color`` color.
                        is_annotate_topsnp=True,  # annotate the top SNP
                        xticklabel_kws={"rotation": "vertical"},
@@ -313,7 +311,7 @@ characters, colors, points sizes, etc. Here is the example:
             df = df.dropna(how="any", axis=0)  # clean data
             # Create a Q-Q plot
             f, ax = plt.subplots(figsize=(6, 6), facecolor="w", edgecolor="k")
-            qqplot(data=data["P"]),
+            qqplot(data=data["P"],
                    marker="o",
                    title="Test",
                    xlabel=r"Expected $-log_{10}{(P)}$",
