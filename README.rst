@@ -159,7 +159,6 @@ Rotate the x-axis tick label by setting ``xticklabel_kws`` to avoid label overla
 
     ax = manhattanplot(data=df,
                        xticklabel_kws={"rotation": "vertical"},  # set vertical or any other angle as you wish.
-                       is_show=False,  # do not display the plot
                        figname="output_manhattan_plot.png")
 
 .. figure:: tests/output_manhattan_plot_xviertical.png
@@ -181,7 +180,7 @@ can be move to different locations or turned off completely with the arguments
                        suggestiveline=None,  # Turn off suggestiveline
                        genomewideline=None,  # Turn off genomewideline
                        xticklabel_kws={"rotation": "vertical"},
-                       is_show=False,  # do not display the plot
+                       is_show=True,  # display the plot in screen
                        figname="output_manhattan_plot.png")
 
 .. figure:: tests/output_manhattan_plot_xviertical_noline.png
@@ -194,7 +193,7 @@ is plotted on the x-axis:
 .. code:: python
 
     # plot only results on chromosome 8.
-    manhattanplot(data=df, CHR="chr8", xlabel="Chromosome 8", is_show=False,
+    manhattanplot(data=df, CHR="chr8", xlabel="Chromosome 8",
                   figname="output_chr8_manhattan_plot.png")
 
 
@@ -210,7 +209,6 @@ GWAS signal and annotate the Top SNP, which has the lowest P-value:
                        sign_marker_p=1e-6,  # highline the significant SNP with ``sign_marker_color`` color.
                        is_annotate_topsnp=True,  # annotate the top SNP
                        xticklabel_kws={"rotation": "vertical"},
-                       is_show=False,
                        figname="output_manhattan_anno_plot.png")
 
 .. figure:: tests/output_manhattan_anno_plot.png
@@ -266,7 +264,6 @@ the example:
                                                        alpha=0.6, relpos=(0, 0))},
 
                       dpi=300,
-                      is_show=False,
                       figname="output_manhattan_plot.png",
                       ax=ax)
 
@@ -318,7 +315,6 @@ characters, colors, points sizes, etc. Here is the example:
                    xlabel=r"Expected $-log_{10}{(P)}$",
                    ylabel=r"Observed $-log_{10}{(P)}$",
                    dpi=300,
-                   is_show=False,
                    figname="output_QQ_plot.png",
                    ax=ax)
 
