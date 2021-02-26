@@ -23,7 +23,7 @@ def parse_commandline_args():
                            help="Genome wide significant p-value sites. [1e-6]", default=1e-6)
     cmdparser.add_argument("-M", "--top-sign-signal-mark-id", dest="m_id", type=str,
                            help="A string denoting the column name for which you want to annotate "
-                                "the Top Significant SNPs. Default: PLINK2.x's \"ID\"", default="ID")
+                                "the Top Significant SNPs. Default: \"ID\"(PLINK2.x)", default="ID")
 
     cmdparser.add_argument("--dpi", dest="dpi", type=float,
                            help="The resolution in dots-pet-inch for plot. [300]", default=300)
@@ -40,7 +40,7 @@ def main():
 
     if not kwargs.display:
         import matplotlib
-        matplotlib.use("agg")  # Using agg, which is a non-GUI backend, so cannot show the figure.
+        matplotlib.use("agg")  # Using agg, which is a non-GUI backend, so cannot show the plot in screen.
 
     import matplotlib.pyplot as plt
 
