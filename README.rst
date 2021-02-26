@@ -1,7 +1,7 @@
 QMplot: A Python tool for creating high-quality manhattan and Q-Q plots from GWAS results.
 ==========================================================================================
 
-**qmplot** is a handy, user-friendly tool and Python package that allows for quick and 
+**qmplot** is a handy, user-friendly tool and Python library that allows for quick and 
 flexible of publication-ready manhattan and Q-Q plots directly from PLINK association 
 results files or any data frame with columns containing chromosomal name, chromosomal 
 position, P-value and optionally the SNP name(e.g. rsID in dbSNP).
@@ -27,7 +27,6 @@ Installation
 release can be installed by running the following command:
 
 .. code:: bash
-
         
         pip install qmplot
 
@@ -92,9 +91,8 @@ and will find all the options below:
                                 Genome wide significant p-value sites. [1e-6]
           -M M_ID, --top-sign-signal-mark-id M_ID
                                 A string denoting the column name for which you want
-                                to annotate the Top Significant SNPs. Default:
-                                PLINK2.x's "ID"
-          --open-gui            Set to be GUI backend, which can show the figure.
+                                to annotate the Top Significant SNPs. Default: "ID"(PLINK2.x)
+          --display             Set to be GUI backend, which can show the figure.
 
 
 The following command will give you the two png plots with 300 dpi
@@ -118,20 +116,20 @@ Note: You can only modify the plots throught ``qmplot`` commandline
 options which is a big limitation when you want to make more change.
 
 
-2. Python package
+2. Python library
 ~~~~~~~~~~~~~~~~~
 
-This is the most flexible way. You can use qmplot as a package in you
+This is the most flexible way. You can use qmplot as a library in you
 Python code and create the plots by your mind.
 
-Manhattan plot with default parameters:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Manhattan plot with default parameters
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``manhattanplot()`` function in **qmplot** package takes a data frame 
-with columns containing the chromosomal name/id, chromosomal position, 
-P-value and optionally the SNP name(e.g. rsID in dbSNP). 
+The ``manhattanplot()`` function in **qmplot** takes a data frame with 
+columns containing the chromosomal name/id, chromosomal position, P-value 
+and optionally the name of SNP(e.g. rsID in dbSNP). 
 
-By default, ``manhattanplot()`` looks fro column names corresponding to 
+By default, ``manhattanplot()`` looks for column names corresponding to 
 those outout by the plink2 association results, namely, "#CHROM", "POS",
 "P", and "ID", although different column names can be specificed by user.
 Calling ``manhattanplot()`` function with a data frame of GWAS results as 
@@ -148,6 +146,8 @@ and lightblue color scheme.
 
         df = pd.read_table("tests/data/gwas_plink_result.tsv", sep="\t")
         df = df.dropna(how="any", axis=0)  # clean data
+
+        # generate manhattan plot and set an output file.
         ax = manhattanplot(data=df, figname="output_manhattan_plot.png")
 
 .. figure:: tests/output_manhattan_plot.png
@@ -158,14 +158,14 @@ Rotate the x-axis tick label by setting ``xticklabel_kws`` to avoid label overla
 .. code:: python
 
     ax = manhattanplot(data=df,
-                       xticklabel_kws={"rotation": "vertical"},  # set vertical(or other angle) label.
+                       xticklabel_kws={"rotation": "vertical"},  # set vertical or any other angle as you wish.
                        is_show=False,  # do not display the plot
                        figname="output_manhattan_plot.png")
 
 .. figure:: tests/output_manhattan_plot_xviertical.png
 
 
-The parameter of ``manhattanplot()`` defined the name of output figure file 
+The parameters of ``manhattanplot()`` defined the name of output figure file 
 and the format of the figure file depending on the file suffix, which could
 be ".png", ".jpg", or ".pdf".
 
@@ -201,7 +201,7 @@ is plotted on the x-axis:
 .. figure:: tests/output_chr8_manhattan_plot.png
 
 ``manhattanplot()`` funcion has the ability to highlight SNPs with significant 
-GWAS signal and annotate the Top SNP:
+GWAS signal and annotate the Top SNP, which has the lowest P-value:
 
 
 .. code:: python
@@ -220,11 +220,11 @@ single chromosome to enable "zooming" into a particular region containing SNPs
 of interest.
 
 
-A better Manhattan plot
-~~~~~~~~~~~~~~~~~~~~~~~
+An example for a better Manhattan plot
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Futher graphical parameters can be passed to the ``manhattanplot()`` function 
-to control thing like plot title, point character, size, colors, etc. Here is 
+to control things like plot title, point character, size, colors, etc. Here is 
 the example:
 
 .. code:: python
@@ -237,7 +237,7 @@ the example:
         df = pd.read_table("tests/data/gwas_plink_result.tsv", sep="\t")
         df = df.dropna(how="any", axis=0)  # clean data
 
-        # Create a manhattan plot
+        # defined the plot style
         f, ax = plt.subplots(figsize=(12, 4), facecolor='w', edgecolor='k')
         xtick = set(['chr' + i for i in list(map(str, range(1, 10))) + ['11', '13', '15', '18', '21', 'X']])
         manhattanplot(data=data,
@@ -266,16 +266,17 @@ the example:
                                                        alpha=0.6, relpos=(0, 0))},
 
                       dpi=300,
+                      is_show=False,
                       figname="output_manhattan_plot.png",
                       ax=ax)
 
 .. figure:: tests/better.manhattan.png
 
-Find more detail about the parameters can be found by typing ``manhattanplot?`` in IPython console.
+Find more details about the parameters by typing ``manhattanplot?`` in IPython console.
 
 
-QQ plot with defualt parameters.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+QQ plot with defualt parameters
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The ``qqplot()`` function can be used to generate a Q-Q plot to visualize the distribution of association "P-value".
 The ``qqplot()`` function takes a vector of P-values as its the only required argument.
@@ -317,13 +318,14 @@ characters, colors, points sizes, etc. Here is the example:
                    xlabel=r"Expected $-log_{10}{(P)}$",
                    ylabel=r"Observed $-log_{10}{(P)}$",
                    dpi=300,
+                   is_show=False,
                    figname="output_QQ_plot.png",
                    ax=ax)
 
 .. figure:: tests/test.QQ.png
 
 
-Find more detail about the parameters by typing ``qqplot?`` in IPython console.
+Find more details about the parameters by typing ``qqplot?`` in IPython console.
 
 
 
