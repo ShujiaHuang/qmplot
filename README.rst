@@ -158,11 +158,12 @@ Rotate the x-axis tick label by setting ``xticklabel_kws`` to avoid label overla
 .. code:: python
 
     ax = manhattanplot(data=df,
-                       xticklabel_kws={"rotation": "vertical"},  # set vertical or any other angle as you wish.
+                       xticklabel_kws={"rotation": "vertical"},  # set vertical or any other degrees as you like.
                        figname="output_manhattan_plot.png")
 
 .. figure:: tests/output_manhattan_plot_xviertical.png
 
+Or rotate the labels 45 degrees by setting ``xticklabel_kws={"rotation": 45}``.
 
 The parameters of ``manhattanplot()`` defined the name of output figure file 
 and the format of the figure file depending on the file suffix, which could
