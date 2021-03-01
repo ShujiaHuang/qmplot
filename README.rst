@@ -8,7 +8,9 @@ position, P-value and optionally the SNP name(e.g. rsID in dbSNP).
 
 
 This library is inspired by
-`r-qqman <https://github.com/stephenturner/qqman>`__.
+`r-qqman <https://github.com/stephenturner/qqman>`__, but it's much more convenient than *r-qqman* 
+that the column of chromosomal name doesn't have to be numeric any more, which means you can **keep 
+the raw name of chromosomal** and don't have to covert X, Y, MT, etc to be 23, 24, 25, etc.
 
 Dependencies
 ------------
