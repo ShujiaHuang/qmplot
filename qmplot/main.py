@@ -47,6 +47,7 @@ def main():
     # loading data
     data = pd.read_table(kwargs.input, sep="\t")
     data = data.dropna(how="any", axis=0)  # clean data
+    data[["#CHROM"]] = data[["#CHROM"]].astype(str)
 
     if data["#CHROM"][0].startswith("chr"):
         print("[WARNING] Find 'chr' is the start characters of chromosomal name, this program will "
