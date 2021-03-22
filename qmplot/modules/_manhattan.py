@@ -275,7 +275,6 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
 
             # set different color for significant SNPs.
             c.append(sign_marker_color if ((sign_marker_p is not None) and (p_value <= sign_marker_p)) else color)
-            # c.append(color if p_value > sign_marker_p else sign_marker_color)
             if (sign_marker_p is not None) and (p_value <= sign_marker_p):
                 snp_id = group_data[snp].iloc[i]
                 sign_snp_sites.append([last_xpos + site, y_value, snp_id])  # x_pos, y_value, text
