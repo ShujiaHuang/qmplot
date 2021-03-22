@@ -6,8 +6,6 @@ build/
 __pycache__/
 learn_from/
 
-
-qmplot/utils/_adjust_text.py
 *.sh
 *.py[cod]
 *.so

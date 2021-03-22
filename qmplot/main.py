@@ -89,17 +89,8 @@ def main():
 
                   is_annotate_topsnp=True,
                   ld_block_size=50000,  # 50000 bp
-                  annotext_kws={"size": 12,  # The fontsize of annotate text
-                                "xycoords": "data",
-                                "xytext": (15, +15),
-                                "textcoords": "offset points",
-                                "bbox": dict(boxstyle="round", alpha=0.2),  # dict(boxstyle="round", fc="0.8")
-                                "arrowprops": dict(arrowstyle="->",  # "-|>"
-                                                   connectionstyle="angle,angleA=0,angleB=80,rad=10",
-                                                   alpha=0.6, relpos=(0, 0)),
-                                # "arrowprops": dict(arrowstyle="wedge,tail_width=0.5", alpha=0.2, relpos=(0, 0)),
-                                },
-
+                  text_kws={"fontsize": 12,  # The fontsize of annotate text
+                            "arrowprops": dict(arrowstyle="-", color="k", alpha=0.6)},
                   dpi=kwargs.dpi,
                   is_show=kwargs.display,
                   figname=kwargs.outprefix + ".manhattan.png",

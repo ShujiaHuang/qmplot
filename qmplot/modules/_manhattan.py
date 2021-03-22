@@ -15,6 +15,7 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 from ._utils import General
+from ..utils import adjust_text
 
 
 # learn something from "https://github.com/reneshbedre/bioinfokit/blob/38fb4966827337f00421119a69259b92bb67a7d0/bioinfokit/visuz.py"
@@ -24,9 +25,8 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
                   xtick_label_set=None, CHR=None, xticklabel_kws=None,
                   suggestiveline=1e-5, genomewideline=5e-8, sign_line_cols="#D62728,#2CA02C", hline_kws=None,
                   sign_marker_p=None, sign_marker_color="r",
-                  is_annotate_topsnp=False, annotext_kws=None, ld_block_size=50000,
+                  is_annotate_topsnp=False, text_kws=None, ld_block_size=50000,
                   is_show=None, dpi=300, figname=None, **kwargs):
-
     """Creates a manhattan plot from PLINK assoc output (or any data frame with chromosome, position, and p-value).
 
     Parameters
@@ -114,8 +114,8 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
     is_annotate_topsnp : boolean, default is False, optional.
         Annotate the top SNP or not for the significant locus.
 
-    annotext_kws: key, value pairings, or None, optional
-        keyword arguments for plotting plt.annotate in`` matplotlib.pyplot.annotate(text, xy, *args, **kwargs)``
+    text_kws: key, value pairings, or None, optional
+        keyword arguments for plotting plt.annotate in`` matplotlib.axes.Axes.text(x, y, s, fontdict=None, **kwargs)``
 
     ld_block_size : integer, default is 50000, optional
         Set the size of LD block which for finding top SNP. And the top SNP's annotation represent the block.
@@ -218,20 +218,13 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
         ...               hline_kws={"linestyle": "--", "lw": 1.3},
         ...               is_annotate_topsnp=True,
         ...               ld_block_size=50000,  # 50000 bp
-        ...               annotext_kws={"size": 12,  # The fontsize of annotate text
-        ...                             "xycoords": "data",
-        ...                             "xytext": (15, +15),
-        ...                             "textcoords": "offset points",
-        ...                             "bbox": dict(boxstyle="round", alpha=0.2), 
-        ...                             "arrowprops": dict(arrowstyle="->",
-        ...                                                connectionstyle="angle,angleA=0,angleB=80,rad=10",
-        ...                                                alpha=0.6, relpos=(0, 0))},
+        ...               annotext_kws={"fontsize": 12,  # The fontsize of annotate text
+        ...                             "arrowprops": dict(arrowstyle="-", color="k", alpha=0.6)},
         ...               dpi=300,  # set the resolution of plot figure
         ...               is_show=False,  # do not show the figure
         ...               figname="output_manhattan_plot.png",
         ...               ax=ax)
     """
-
     if not isinstance(data, DataFrame):
         raise ValueError("[ERROR] Input data must be a pandas.DataFrame.")
     if chrom not in data:
@@ -257,8 +250,8 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
         xticklabel_kws = {}
     if hline_kws is None:
         hline_kws = {}
-    if annotext_kws is None:
-        annotext_kws = {}
+    if text_kws is None:
+        text_kws = {}
 
     if "," in color:
         color = color.split(",")
@@ -318,8 +311,8 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
     # Plotting the Top SNP for each significant block
     if is_annotate_topsnp:
         sign_top_snp = _find_top_snp(sign_snp_sites, ld_block_size=ld_block_size, is_get_biggest=logp)
-        for _x, _y, _text in sign_top_snp:
-            ax.annotate(_text, xy=(_x, _y), **annotext_kws)
+        texts = [ax.text(_x, _y, _text) for _x, _y, _text in sign_top_snp]
+        adjust_text(texts, ax=ax, **text_kws)
 
     if CHR is None:
 
