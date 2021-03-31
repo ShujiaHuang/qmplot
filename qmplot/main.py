@@ -25,6 +25,8 @@ def parse_commandline_args():
                            help="A string denoting the column name for which you want to annotate "
                                 "the Top Significant SNPs. Default: \"ID\"(PLINK2.x)", default="ID")
 
+    cmdparser.add_argument("--ld-block-size", dest="ld_block_size", type=int, default=50000,
+                           help="The size of LD block for finding top SNPs. default: 50000")
     cmdparser.add_argument("--dpi", dest="dpi", type=float,
                            help="The resolution in dots-pet-inch for plot. [300]", default=300)
     cmdparser.add_argument("--display", dest="display", action="store_true",
@@ -88,7 +90,7 @@ def main():
                   hline_kws={"linestyle": "--", "lw": 1.3},
 
                   is_annotate_topsnp=True,
-                  ld_block_size=50000,  # 50000 bp
+                  ld_block_size=kwargs.ld_block_size,
                   text_kws={"fontsize": 12,  # The fontsize of annotate text
                             "arrowprops": dict(arrowstyle="-", color="k", alpha=0.6)},
                   dpi=kwargs.dpi,
