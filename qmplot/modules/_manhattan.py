@@ -273,8 +273,8 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
             x.append(last_xpos + site)
             y.append(y_value)
 
-            # set different color for significant SNPs.
-            c.append(sign_marker_color if ((sign_marker_p is not None) and (p_value <= sign_marker_p)) else color)
+            # c.append(sign_marker_color if ((sign_marker_p is not None) and (p_value <= sign_marker_p)) else color)
+            c.append(color)
             if (sign_marker_p is not None) and (p_value <= sign_marker_p):
                 snp_id = group_data[snp].iloc[i]
                 sign_snp_sites.append([last_xpos + site, y_value, snp_id])  # x_pos, y_value, text
@@ -293,6 +293,14 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
 
     if "marker" not in kwargs:
         kwargs["marker"] = marker
+
+    # reset color for significant SNPs.
+    if sign_marker_p is not None:
+        c = _reset_color_for_SNPs_which_overlap_sign_neighbour_region(
+            sign_snp_neighbour_region=_sign_snp_regions(sign_snp_sites, ld_block_size),
+            x=x,
+            c=c,
+            color=sign_marker_color)
 
     # plot the main manhattan dot plot
     ax.scatter(x, y, c=c, alpha=alpha, edgecolors="none", **kwargs)
@@ -369,3 +377,47 @@ def _find_top_snp(sign_snp_data, ld_block_size, is_get_biggest=True):
         top_snp.append(sorted(tmp_cube, key=(lambda x: x[1]), reverse=True)[0])
 
     return top_snp
+
+
+def _sign_snp_regions(sign_snp_data, ld_block_size):
+    """Create region according to the coordinate of sign_snp_data."""
+    regions = []
+    for i, (_x, _y, _t) in enumerate(sign_snp_data):
+        if i == 0:
+            regions.append([_x - ld_block_size, _x])
+            continue
+
+        if _x > regions[-1][1] + ld_block_size:
+            regions[-1][1] += ld_block_size
+            regions.append([_x - ld_block_size, _x])
+        else:
+            regions[-1][1] = _x
+
+    # The last
+    regions[-1][1] += ld_block_size
+    return regions
+
+
+def _reset_color_for_SNPs_which_overlap_sign_neighbour_region(sign_snp_neighbour_region, x, c, color):
+    """
+    """
+    x_size = len(x)
+    reg_size = len(sign_snp_neighbour_region)
+    index = 0
+    for i in range(x_size):
+        _x = x[i]
+
+        is_overlap = False
+        iter_index = range(index, reg_size)
+        for j in iter_index:
+            if _x > sign_snp_neighbour_region[j][1]: continue
+            if _x < sign_snp_neighbour_region[j][0]: break
+
+            index = j
+            is_overlap = True
+            break
+
+        if is_overlap:
+            c[i] = color
+
+    return c
