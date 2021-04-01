@@ -273,8 +273,7 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
             x.append(last_xpos + site)
             y.append(y_value)
 
-            # c.append(sign_marker_color if ((sign_marker_p is not None) and (p_value <= sign_marker_p)) else color)
-            c.append(color)
+            c.append(sign_marker_color if ((sign_marker_p is not None) and (p_value <= sign_marker_p)) else color)
             if (sign_marker_p is not None) and (p_value <= sign_marker_p):
                 snp_id = group_data[snp].iloc[i]
                 sign_snp_sites.append([last_xpos + site, y_value, snp_id])  # x_pos, y_value, text
@@ -294,16 +293,17 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
     if "marker" not in kwargs:
         kwargs["marker"] = marker
 
-    # reset color for significant SNPs.
-    if sign_marker_p is not None:
-        c = _reset_color_for_SNPs_which_overlap_sign_neighbour_region(
-            sign_snp_neighbour_region=_sign_snp_regions(sign_snp_sites, ld_block_size),
-            x=x,
-            c=c,
-            color=sign_marker_color)
-
     # plot the main manhattan dot plot
     ax.scatter(x, y, c=c, alpha=alpha, edgecolors="none", **kwargs)
+
+    if is_annotate_topsnp is not None:
+        index = _find_SNPs_which_overlap_sign_neighbour_region(
+            sign_snp_neighbour_region=_sign_snp_regions(sign_snp_sites, ld_block_size),
+            x=x)
+        
+        # reset color for all SNPs which nearby the top SNPs.
+        for i in index:
+            ax.scatter(x[i], y[i], c=sign_marker_color, alpha=alpha, edgecolors="none", **kwargs)
 
     # Add GWAS significant lines
     if "color" in hline_kws:
@@ -398,26 +398,28 @@ def _sign_snp_regions(sign_snp_data, ld_block_size):
     return regions
 
 
-def _reset_color_for_SNPs_which_overlap_sign_neighbour_region(sign_snp_neighbour_region, x, c, color):
+def _find_SNPs_which_overlap_sign_neighbour_region(sign_snp_neighbour_region, x):
     """
     """
     x_size = len(x)
     reg_size = len(sign_snp_neighbour_region)
-    index = 0
+    index = []
+    tmp_index = 0
     for i in range(x_size):
         _x = x[i]
 
         is_overlap = False
-        iter_index = range(index, reg_size)
+        iter_index = range(tmp_index, reg_size)
         for j in iter_index:
             if _x > sign_snp_neighbour_region[j][1]: continue
             if _x < sign_snp_neighbour_region[j][0]: break
 
-            index = j
+            tmp_index = j
             is_overlap = True
             break
 
         if is_overlap:
-            c[i] = color
+            index.append(i)
 
-    return c
+    # return the index
+    return index
