@@ -257,7 +257,7 @@ the example:
                       hline_kws={"linestyle": "--", "lw": 1.3},
 
                       is_annotate_topsnp=True,
-                      ld_block_size=50000,  # 50000 bp
+                      ld_block_size=500000,  # 500000 bp
                       text_kws={"fontsize": 12,  # The fontsize of annotate text
                                 "arrowprops": dict(arrowstyle="-", color="k", alpha=0.6)},
                       dpi=300,
