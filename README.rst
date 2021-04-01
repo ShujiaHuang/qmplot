@@ -195,12 +195,12 @@ is plotted on the x-axis:
 
 .. code:: python
 
-    # plot only results on chromosome 8.
+    # plot only results of chromosome 8.
     manhattanplot(data=df, CHR="chr8", xlabel="Chromosome 8",
                   figname="output_chr8_manhattan_plot.png")
 
-
 .. figure:: tests/output_chr8_manhattan_plot.png
+
 
 ``manhattanplot()`` funcion has the ability to highlight SNPs with significant 
 GWAS signal and annotate the Top SNP, which has the lowest P-value:
@@ -235,6 +235,7 @@ the example:
 
     if __name__ == "__main__":
 
+        # loading data from local file
         df = pd.read_table("tests/data/gwas_plink_result.tsv", sep="\t")
         df = df.dropna(how="any", axis=0)  # clean data
 
