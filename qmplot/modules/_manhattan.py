@@ -318,8 +318,9 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
     # Plotting the Top SNP for each significant block
     if is_annotate_topsnp:
         sign_top_snp = _find_top_snp(sign_snp_sites, ld_block_size=ld_block_size, is_get_biggest=logp)
-        texts = [ax.text(_x, _y, _text) for _x, _y, _text in sign_top_snp]
-        adjust_text(texts, ax=ax, **text_kws)
+        if sign_top_snp:  # not empty
+            texts = [ax.text(_x, _y, _text) for _x, _y, _text in sign_top_snp]
+            adjust_text(texts, ax=ax, **text_kws)
 
     if CHR is None:
 
@@ -394,7 +395,9 @@ def _sign_snp_regions(sign_snp_data, ld_block_size):
             regions[-1][1] = _x
 
     # The last
-    regions[-1][1] += ld_block_size
+    if regions:
+        regions[-1][1] += ld_block_size
+
     return regions
 
 
