@@ -115,7 +115,7 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
         Annotate the top SNP or not for the significant locus.
 
     text_kws: key, value pairings, or None, optional
-        keyword arguments for plotting plt.annotate in`` matplotlib.axes.Axes.text(x, y, s, fontdict=None, **kwargs)``
+        keyword arguments for plotting in`` matplotlib.axes.Axes.text(x, y, s, fontdict=None, **kwargs)``
 
     ld_block_size : integer, default is 50000, optional
         Set the size of LD block which for finding top SNP. And the top SNP's annotation represent the block.
@@ -218,8 +218,8 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
         ...               hline_kws={"linestyle": "--", "lw": 1.3},
         ...               is_annotate_topsnp=True,
         ...               ld_block_size=50000,  # 50000 bp
-        ...               annotext_kws={"fontsize": 12,  # The fontsize of annotate text
-        ...                             "arrowprops": dict(arrowstyle="-", color="k", alpha=0.6)},
+        ...               text_kws={"fontsize": 12,  # The fontsize of annotate text
+        ...                         "arrowprops": dict(arrowstyle="-", color="k", alpha=0.6)},
         ...               dpi=300,  # set the resolution of plot figure
         ...               is_show=False,  # do not show the figure
         ...               figname="output_manhattan_plot.png",
