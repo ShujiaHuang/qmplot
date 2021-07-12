@@ -231,8 +231,8 @@ def qqplot(data, other=None, logp=True, ax=None, marker="o", color=None, alpha=0
     return ax
 
 
-def qqnorm(data, ax=None, xlabel='Expected', ylabel='Observed', color=None, ablinecolor='r', alpha=0.8,
-           is_show=None, dpi=300, figname=None, **kwargs):
+def qqnorm(data, ax=None, xlabel="Expected normal distribution", ylabel="Observed distribution",
+           color=None, ablinecolor="r", alpha=0.8, is_show=None, dpi=300, figname=None, **kwargs):
     """Creat Q-Q plot against the normal distribution values.
     *CAUSION: The x-axis(expected) is created from normal distribution.*
 
