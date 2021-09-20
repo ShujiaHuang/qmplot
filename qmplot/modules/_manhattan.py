@@ -25,7 +25,9 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
                   xtick_label_set=None, CHR=None, xticklabel_kws=None,
                   suggestiveline=1e-5, genomewideline=5e-8, sign_line_cols="#D62728,#2CA02C", hline_kws=None,
                   sign_marker_p=None, sign_marker_color="r",
-                  is_annotate_topsnp=False, text_kws=None, ld_block_size=50000,
+                  is_annotate_topsnp=False, highlight_other_SNPs_indcs=None,
+                  highlight_other_SNPs_color='r', highlight_other_SNPs_kwargs=None,
+                  text_kws=None, ld_block_size=50000,
                   is_show=None, dpi=300, figname=None, **kwargs):
     """Creates a manhattan plot from PLINK assoc output (or any data frame with chromosome, position, and p-value).
 
