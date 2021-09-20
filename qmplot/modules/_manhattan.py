@@ -316,6 +316,8 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
         for i in index:
             ax.scatter(x[i], y[i], c=sign_marker_color, alpha=alpha, edgecolors="none", **kwargs)
 
+    highlight_other_SNPs_kwargs = dict() if highlight_other_SNPs_kwargs is \
+        None else highlight_other_SNPs_kwargs
     # highlight other SNPs
     if highlight_other_SNPs_indcs is not None:
         for i in highlight_other_SNPs_indcs:
