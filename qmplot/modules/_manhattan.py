@@ -25,7 +25,9 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
                   xtick_label_set=None, CHR=None, xticklabel_kws=None,
                   suggestiveline=1e-5, genomewideline=5e-8, sign_line_cols="#D62728,#2CA02C", hline_kws=None,
                   sign_marker_p=None, sign_marker_color="r",
-                  is_annotate_topsnp=False, text_kws=None, ld_block_size=50000,
+                  is_annotate_topsnp=False, highlight_other_SNPs_indcs=None,
+                  highlight_other_SNPs_color='r', highlight_other_SNPs_kwargs=None,
+                  text_kws=None, ld_block_size=50000,
                   is_show=None, dpi=300, figname=None, **kwargs):
     """Creates a manhattan plot from PLINK assoc output (or any data frame with chromosome, position, and p-value).
 
@@ -114,15 +116,24 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
     is_annotate_topsnp : boolean, default is False, optional.
         Annotate the top SNP or not for the significant locus.
 
+    highlight_other_SNPs_indcs : iterable, or None, optional
+        Numerical indices of other SNPs (i.e. not the top SNP) to highlight.
+
+    highlight_other_SNPs_color : matplotlib color, default: "r", optional.
+        Define a color code for other highlighted SNP sites.
+
+    highlight_other_SNPs_kwargs=None : Dict, or None, optional
+        Dict of keyword arguments passed to the command highlighting the other SNPs.
+
     text_kws: key, value pairings, or None, optional
         keyword arguments for plotting in`` matplotlib.axes.Axes.text(x, y, s, fontdict=None, **kwargs)``
 
     ld_block_size : integer, default is 50000, optional
         Set the size of LD block which for finding top SNP. And the top SNP's annotation represent the block.
 
-    is_show : boolean or None, default is None, Optional. 
+    is_show : boolean or None, default is None, Optional.
         Display the plot in screen or not.
-        You can set this parameter by your wish, or it'll set to be True automatically 
+        You can set this parameter by your wish, or it'll set to be True automatically
         if ``is_show`` and ``figname`` are None simultaneously.
 
     dpi : float or 'figure', default is 300, optional.
@@ -133,7 +144,7 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
 
     kwargs : key, value pairings, optional
         Other keyword arguments are passed to ``plt.scatter()`` or
-        ``plt.vlines()`` (in matplotlib.pyplot) depending on whether 
+        ``plt.vlines()`` (in matplotlib.pyplot) depending on whether
         a scatter or line plot is being drawn.
 
 
@@ -180,7 +191,7 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
 
     .. plot::
         :context: close-figs
-    
+
         >>> manhattanplot(data=df,
         ...               hline_kws={"linestyle": "--", "lw": 1.3},
         ...               xlabel="Chromosome",
@@ -279,8 +290,8 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
                 sign_snp_sites.append([last_xpos + site, y_value, snp_id])  # x_pos, y_value, text
 
         # ``xs_by_id`` is for setting up positions and ticks. Ticks should
-        # be placed in the middle of a chromosome. The a new pos column is 
-        # added that keeps a running sum of the positions of each successive 
+        # be placed in the middle of a chromosome. The a new pos column is
+        # added that keeps a running sum of the positions of each successive
         # chromsome.
         xs_by_id.append([seqid, last_xpos + (group_data[pos].iloc[0] + group_data[pos].iloc[-1]) / 2])
         last_xpos = x[-1]  # keep track so that chromosome will not overlap in the plot.
@@ -300,10 +311,18 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
         index = _find_SNPs_which_overlap_sign_neighbour_region(
             sign_snp_neighbour_region=_sign_snp_regions(sign_snp_sites, ld_block_size),
             x=x)
-        
+
         # reset color for all SNPs which nearby the top SNPs.
         for i in index:
             ax.scatter(x[i], y[i], c=sign_marker_color, alpha=alpha, edgecolors="none", **kwargs)
+
+    highlight_other_SNPs_kwargs = dict() if highlight_other_SNPs_kwargs is \
+        None else highlight_other_SNPs_kwargs
+    # highlight other SNPs
+    if highlight_other_SNPs_indcs is not None:
+        for i in highlight_other_SNPs_indcs:
+            ax.scatter(x[i], y[i], c=highlight_other_SNPs_color,
+                       alpha=alpha, edgecolors="none", **highlight_other_SNPs_kwargs)
 
     # Add GWAS significant lines
     if "color" in hline_kws:
