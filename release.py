@@ -10,11 +10,6 @@ spec = importlib.util.spec_from_file_location("_", "./setup.py")
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 
-# Publish geneview to PyPI by using twine: https://segmentfault.com/a/1190000008663126
-# pip install twine
-# python setup.py register
-# python setup.py sdist build && twine upload dist/geneview-0.0.5.tar.gz
-
 #call(["pandoc", "--from=markdown", "--to=rst", "-o", "README.rst", "README.md"])
 call(["python", "setup.py", "sdist"])
 tarball = "dist/{}-{}.tar.gz".format(module.meta.__DISTNAME__, module.meta.__VERSION__)
