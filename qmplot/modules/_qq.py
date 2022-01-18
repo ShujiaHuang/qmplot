@@ -60,15 +60,16 @@ def ppoints(n, a=0.5):
     return (np.arange(n, dtype=float) + 1 - a) / (n + 1 - 2 * a)
 
 
-def qqplot(data, other=None, logp=True, ax=None, marker="o", color=None, alpha=0.8, title=None, xlabel=None,
-           ylabel=None, ablinecolor="r", is_show=None, dpi=300, figname=None, **kwargs):
+def qqplot(data, other=None, logp=True, ax=None, marker="o", color=None, alpha=0.8, 
+           title=None, xlabel=None, ylabel=None, ablinecolor="r", is_show=None, 
+           dpi=300, figname=None, **kwargs):
     """Creat Q-Q plot.
     **CAUSION: The x-axis(expected) is created from uniform distribution.**
 
     Parameters
     ----------
     data : list, 1d-array-like, or Series
-        Data to be plotted
+        Data (P value) to be plotted 
 
     other : list, 1d-array-like, Series or None, optional
         If provided, the sample quantiles of the `data` array-like object are 
@@ -215,8 +216,8 @@ def qqplot(data, other=None, logp=True, ax=None, marker="o", color=None, alpha=0
     ax = _do_plot(e, o, ax=ax, color=color, ablinecolor=ablinecolor, alpha=alpha, **kwargs)
 
     expected_median = chi2.ppf(0.5, 1)  # This value is equal to 0.4549364
-    # Two side test
-    lambda_value = round(np.median(norm.ppf(1-data/2) ** 2) / expected_median, 3)
+    lambda_value = round(np.median(norm.ppf(1-data/2) ** 2) / expected_median, 3)  # data/2 => Two side test
+
     if title:
         title += r"$(\lambda = %s)$" % lambda_value
     else:
