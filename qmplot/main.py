@@ -18,19 +18,19 @@ def parse_commandline_args():
     cmdparser.add_argument("-I", "--input", dest="input", type=str, required=True, help="Input file")
     cmdparser.add_argument("-O", "--outprefix", dest="outprefix", type=str, required=True,
                            help="The prefix of output file")
-    cmdparser.add_argument("-T", "--title", dest="title", type=str, help="Title of figure", default=None)
+    cmdparser.add_argument("-T", "--title", dest="title", type=str, help="Title of plot", default=None)
     cmdparser.add_argument("-P", "--sign-mark-pvalue", dest="sign_pvalue", type=float,
                            help="Genome wide significant p-value sites. [1e-6]", default=1e-6)
     cmdparser.add_argument("-M", "--top-sign-signal-mark-id", dest="m_id", type=str,
                            help="A string denoting the column name for which you want to annotate "
-                                "the Top Significant SNPs. Default: \"ID\"(PLINK2.x)", default="ID")
+                                "the top Significant loci. Default: \"ID\"(PLINK2.x)", default="ID")
 
-    cmdparser.add_argument("--ld-block-size", dest="ld_block_size", type=int, default=50000,
-                           help="The size of LD block for finding top SNPs. default: 50000")
+    cmdparser.add_argument("--ld-block-size", dest="ld_block_size", type=int, default=500000,
+                           help="The size of LD block for finding top SNPs. default: 500000")
     cmdparser.add_argument("--dpi", dest="dpi", type=float,
                            help="The resolution in dots-pet-inch for plot. [300]", default=300)
-    cmdparser.add_argument("--display", dest="display", action="store_true",
-                           help="Set to be GUI backend, which can display the figure.")
+    cmdparser.add_argument("--display", dest="display", action="store_true", 
+                           help="Display the plot in screen.")
 
     args = cmdparser.parse_args()
 
@@ -42,7 +42,8 @@ def main():
 
     if not kwargs.display:
         import matplotlib
-        matplotlib.use("agg")  # Using agg, which is a non-GUI backend, so cannot show the plot in screen.
+        # Using agg, which is a non-GUI backend, so cannot show the plot in screen.
+        matplotlib.use("agg")
 
     import matplotlib.pyplot as plt
 

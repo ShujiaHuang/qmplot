@@ -26,7 +26,7 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
                   suggestiveline=1e-5, genomewideline=5e-8, sign_line_cols="#D62728,#2CA02C", hline_kws=None,
                   sign_marker_p=None, sign_marker_color="r",
                   is_annotate_topsnp=False, highlight_other_SNPs_indcs=None,
-                  highlight_other_SNPs_color='r', highlight_other_SNPs_kwargs=None,
+                  highlight_other_SNPs_color="r", highlight_other_SNPs_kwargs=None,
                   text_kws=None, ld_block_size=50000,
                   is_show=None, dpi=300, figname=None, **kwargs):
     """Creates a manhattan plot from PLINK assoc output (or any data frame with chromosome, position, and p-value).
@@ -318,6 +318,7 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
 
     highlight_other_SNPs_kwargs = dict() if highlight_other_SNPs_kwargs is \
         None else highlight_other_SNPs_kwargs
+
     # highlight other SNPs
     if highlight_other_SNPs_indcs is not None:
         for i in highlight_other_SNPs_indcs:
@@ -334,7 +335,7 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
     if genomewideline is not None:
         ax.axhline(y=-np.log10(genomewideline) if logp else genomewideline, color=sign_line_cols[1], **hline_kws)
 
-    # Plotting the Top SNP for each significant block
+    # Plotting the top SNP for each significant block
     if is_annotate_topsnp:
         sign_top_snp = _find_top_snp(sign_snp_sites, ld_block_size=ld_block_size, is_get_biggest=logp)
         if sign_top_snp:  # not empty
