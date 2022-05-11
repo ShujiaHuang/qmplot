@@ -65,6 +65,7 @@ def main():
 
     # common parameters for plotting
     plt_params = {
+        "pdf.fonttype": 42,
         "font.sans-serif": "Arial",
         "legend.fontsize": 14,
         "axes.titlesize": 18,
