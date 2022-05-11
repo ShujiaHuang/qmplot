@@ -18,6 +18,8 @@ def parse_commandline_args():
     cmdparser.add_argument("-I", "--input", dest="input", type=str, required=True, help="Input file")
     cmdparser.add_argument("-O", "--outprefix", dest="outprefix", type=str, required=True,
                            help="The prefix of output file")
+    cmdparser.add_argument("--outfiletype", dest="outfiletype", type=str, required=False, default="png",
+                           help="The file type of output plot. [png]")
     cmdparser.add_argument("-T", "--title", dest="title", type=str, help="Title of plot", default=None)
     cmdparser.add_argument("-P", "--sign-mark-pvalue", dest="sign_pvalue", type=float,
                            help="Genome wide significant p-value sites. [1e-6]", default=1e-6)
@@ -96,7 +98,7 @@ def main():
                             "arrowprops": dict(arrowstyle="-", color="k", alpha=0.6)},
                   dpi=kwargs.dpi,
                   is_show=kwargs.display,
-                  figname=kwargs.outprefix + ".manhattan.png",
+                  figname=kwargs.outprefix + ".manhattan." + kwargs.outfiletype,
                   ax=ax)
 
     # Create a Q-Q plot
@@ -106,7 +108,7 @@ def main():
            title=kwargs.title,
            xlabel=r"Expected $-log_{10}{(P)}$",
            ylabel=r"Observed $-log_{10}{(P)}$",
-           figname=kwargs.outprefix + ".QQ.png",
+           figname=kwargs.outprefix + ".QQ." + kwargs.outfiletype,
            dpi=kwargs.dpi,
            is_show=kwargs.display,
            ax=ax)
