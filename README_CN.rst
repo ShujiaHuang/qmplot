@@ -1,6 +1,9 @@
 QMplot: A Python tool for creating high-quality manhattan and Q-Q plots from GWAS results.
 ==========================================================================================
 
+.. image:: https://zenodo.org/badge/340579658.svg
+   :target: https://zenodo.org/badge/latestdoi/340579658
+
 **简体中文** | `**English** <./README.rst>`__
 
 **qmplot** is a handy, user-friendly tool and Python package that allows for quick and 

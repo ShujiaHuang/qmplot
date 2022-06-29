@@ -1,6 +1,9 @@
 QMplot: A Python tool for creating high-quality manhattan and Q-Q plots from GWAS results.
 ==========================================================================================
 
+.. image:: https://zenodo.org/badge/340579658.svg
+   :target: https://zenodo.org/badge/latestdoi/340579658
+
 **qmplot** is a handy, user-friendly tool and Python library that allows for quick and 
 flexible of publication-ready manhattan and Q-Q plots directly from PLINK association 
 results files or any data frame with columns containing chromosomal name, chromosomal 
