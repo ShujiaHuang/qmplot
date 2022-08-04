@@ -97,10 +97,11 @@ def main():
                   ld_block_size=kwargs.ld_block_size,
                   text_kws={"fontsize": 12,  # The fontsize of annotate text
                             "arrowprops": dict(arrowstyle="-", color="k", alpha=0.6)},
-                  dpi=kwargs.dpi,
-                  is_show=kwargs.display,
-                  figname=kwargs.outprefix + ".manhattan." + kwargs.outfiletype,
                   ax=ax)
+
+    plt.savefig(kwargs.outprefix + ".manhattan." + kwargs.outfiletype, dpi=kwargs.dpi)
+    if kwargs.display:
+        plt.show()
 
     # Create a Q-Q plot
     f, ax = plt.subplots(figsize=(6, 6), facecolor="w", edgecolor="k")
@@ -109,10 +110,11 @@ def main():
            title=kwargs.title,
            xlabel=r"Expected $-log_{10}{(P)}$",
            ylabel=r"Observed $-log_{10}{(P)}$",
-           figname=kwargs.outprefix + ".QQ." + kwargs.outfiletype,
-           dpi=kwargs.dpi,
-           is_show=kwargs.display,
            ax=ax)
+
+    plt.savefig(kwargs.outprefix + ".QQ." + kwargs.outfiletype, dpi=kwargs.dpi)
+    if kwargs.display:
+        plt.show()
 
     print(">>>>>>>>>>>>>>>>> Create Manhattan and Q-Q plots done <<<<<<<<<<<<<<<<<")
     return

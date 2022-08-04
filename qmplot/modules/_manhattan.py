@@ -14,7 +14,6 @@ from pandas import DataFrame
 import numpy as np
 
 import matplotlib.pyplot as plt
-from ._utils import General
 from ..utils import adjust_text
 
 
@@ -27,8 +26,7 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
                   sign_marker_p=None, sign_marker_color="r",
                   is_annotate_topsnp=False, highlight_other_SNPs_indcs=None,
                   highlight_other_SNPs_color="r", highlight_other_SNPs_kwargs=None,
-                  text_kws=None, ld_block_size=50000,
-                  is_show=None, dpi=300, figname=None, **kwargs):
+                  text_kws=None, ld_block_size=50000, **kwargs):
     """Creates a manhattan plot from PLINK assoc output (or any data frame with chromosome, position, and p-value).
 
     Parameters
@@ -131,17 +129,6 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
     ld_block_size : integer, default is 50000, optional
         Set the size of LD block which for finding top SNP. And the top SNP's annotation represent the block.
 
-    is_show : boolean or None, default is None, Optional.
-        Display the plot in screen or not.
-        You can set this parameter by your wish, or it'll set to be True automatically
-        if ``is_show`` and ``figname`` are None simultaneously.
-
-    dpi : float or 'figure', default is 300, optional.
-        The resolution in dots-pet-inch for plot. If 'figure', use the figure's dpi value.
-
-    figname : string, or None, optional
-        Output plot file name.
-
     kwargs : key, value pairings, optional
         Other keyword arguments are passed to ``plt.scatter()`` or
         ``plt.vlines()`` (in matplotlib.pyplot) depending on whether
@@ -184,7 +171,8 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
 
         >>> xtick = set(['chr' + i for i in list(map(str, range(1, 10))) + ['11', '13', '15', '18', '21', 'X']])
         >>> manhattanplot(data=df, xlabel="Chromosome", ylabel=r"$-log_{10}{(P)}$",
-        ...               xtick_label_set=xtick, figname="manhattan.png")
+        ...               xtick_label_set=xtick)
+        >>> plt.savefig("manhattan.png")
 
     Add a horizontal at y position=3 line with linestyle="--" and lingwidth=1.3
     across the axis:
@@ -231,10 +219,8 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
         ...               ld_block_size=50000,  # 50000 bp
         ...               text_kws={"fontsize": 12,  # The fontsize of annotate text
         ...                         "arrowprops": dict(arrowstyle="-", color="k", alpha=0.6)},
-        ...               dpi=300,  # set the resolution of plot figure
-        ...               is_show=False,  # do not show the figure
-        ...               figname="output_manhattan_plot.png",
         ...               ax=ax)
+        >>> plt.savefig("output_manhattan_plot.png", dpi=300)
     """
     if not isinstance(data, DataFrame):
         raise ValueError("[ERROR] Input data must be a pandas.DataFrame.")
@@ -317,7 +303,7 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
             ax.scatter(x[i], y[i], c=sign_marker_color, alpha=alpha, edgecolors="none", **kwargs)
 
     highlight_other_SNPs_kwargs = dict() if highlight_other_SNPs_kwargs is \
-        None else highlight_other_SNPs_kwargs
+                                            None else highlight_other_SNPs_kwargs
 
     # highlight other SNPs
     if highlight_other_SNPs_indcs is not None:
@@ -368,11 +354,6 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
 
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-
-    if (is_show is None) and (figname is None):
-        is_show = True
-
-    General.get_figure(is_show, fig_name=figname, dpi=dpi)
     return ax
 
 

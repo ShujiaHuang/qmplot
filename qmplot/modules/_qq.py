@@ -9,7 +9,6 @@ from scipy.stats import norm, chi2
 import matplotlib.pyplot as plt
 
 from ..utils import is_numeric
-from ._utils import General
 
 
 def ppoints(n, a=0.5):
@@ -61,8 +60,7 @@ def ppoints(n, a=0.5):
 
 
 def qqplot(data, other=None, logp=True, ax=None, marker="o", color=None, alpha=0.8, 
-           title=None, xlabel=None, ylabel=None, ablinecolor="r", is_show=None, 
-           dpi=300, figname=None, **kwargs):
+           title=None, xlabel=None, ylabel=None, ablinecolor="r", **kwargs):
     """Creat Q-Q plot.
     **CAUSION: The x-axis(expected) is created from uniform distribution.**
 
@@ -105,17 +103,6 @@ def qqplot(data, other=None, logp=True, ax=None, marker="o", color=None, alpha=0
     ablinecolor : matplotlib color, default is 'r' (red), optional
         Color for the abline in plot. if set ``ablinecolor=None`` 
         means do not plot the abline.
-
-    is_show : boolean or None, default is None, Optional.
-        Display the plot in screen or not.
-        You can set this parameter by your wish, or it'll set to be True automatically 
-        if ``is_show`` and ``figname`` are None simultaneously.
-
-    dpi : float or 'figure', default is 300, optional.
-        The resolution in dots-pet-inch for plot. If 'figure', use the figure's dpi value.
-
-    figname : string, or None, optional
-        Output plot file name.
 
     kwargs : key, value pairings, optional
         Other keyword arguments are passed to ``plt.scatter()``
@@ -167,9 +154,8 @@ def qqplot(data, other=None, logp=True, ax=None, marker="o", color=None, alpha=0
         ...        title="Test",
         ...        xlabel=r"Expected $-log_{10}{(P)}$",
         ...        ylabel=r"Observed $-log_{10}{(P)}$",
-        ...        dpi=300,
-        ...        figname="output_QQ_plot.png",
         ...        ax=ax)
+        >>> plt.savefig("output_QQ_plot.png", bbox_inches="tight", dpi=300)
 
     We could even create a QQ plot base on two different dataset:
 
@@ -227,15 +213,11 @@ def qqplot(data, other=None, logp=True, ax=None, marker="o", color=None, alpha=0
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
 
-    if (is_show is None) and (figname is None):
-        is_show = True
-
-    General.get_figure(is_show, fig_name=figname, dpi=dpi)
     return ax
 
 
 def qqnorm(data, ax=None, xlabel="Expected normal distribution", ylabel="Observed distribution",
-           color=None, ablinecolor="r", alpha=0.8, is_show=None, dpi=300, figname=None, **kwargs):
+           color=None, ablinecolor="r", alpha=0.8, **kwargs):
     """Creat Q-Q plot against the normal distribution values.
     *CAUSION: The x-axis(expected) is created from normal distribution.*
 
@@ -266,17 +248,6 @@ def qqnorm(data, ax=None, xlabel="Expected normal distribution", ylabel="Observe
     alpha : float scalar, default is 0.8, optional
         The alpha blending value, between 0(transparent) and 1(opaque)
 
-    is_show : boolean or None, default is None, Optional.
-        Display the plot in screen or not.
-        You can set this parameter by your wish, or it'll set to be True automatically 
-        if ``is_show`` and ``figname`` are None simultaneously.
-
-    dpi : float or 'figure', default is 300, optional.
-        The resolution in dots-pet-inch for plot. If 'figure', use the figure's dpi value.
-
-    figname : string, or None, optional
-        Output plot file name.
-
     kwargs : key, value pairings
         Other keyword arguments are passed to ``plt.scatter()``
         (in matplotlib.pyplot).
@@ -286,7 +257,6 @@ def qqnorm(data, ax=None, xlabel="Expected normal distribution", ylabel="Observe
     -------
     ax : matplotlib Axes
         Axes object with the plot.
-
 
     Notes
     -----
@@ -341,10 +311,6 @@ def qqnorm(data, ax=None, xlabel="Expected normal distribution", ylabel="Observe
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
 
-    if (is_show is None) and (figname is None):
-        is_show = True
-
-    General.get_figure(is_show, fig_name=figname, dpi=dpi)
     return ax
 
 
