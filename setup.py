@@ -15,7 +15,7 @@ meta = Namespace(
     __URL__="https://github.com/ShujiaHuang/qmplot",
     __LICENSE__="BSD (3-clause)",
     __DOWNLOAD_URL__="https://github.com/ShujiaHuang/qmplot",
-    __VERSION__="0.3.0",
+    __VERSION__="0.3.1",
 )
 
 try:
@@ -32,16 +32,20 @@ INSTALL_REQUIRES = [
     "matplotlib",
 ]
 
-ROOT_DIR = os.path.split(os.path.realpath(__file__))[0]
 
 if __name__ == "__main__":
+
+    THIS_PATH = os.path.abspath(os.path.dirname(__file__))
+    long_description = os.path.join(THIS_PATH, "README.md")
+
     setup(name=meta.__DISTNAME__,
           author=meta.__AUTHOR__,
           author_email=meta.__AUTHOR_EMAIL__,
           maintainer=meta.__AUTHOR__,
           maintainer_email=meta.__AUTHOR_EMAIL__,
           description=DESCRIPTION,
-          long_description=(open(ROOT_DIR + "/README.rst").read()),
+          long_description_content_type="text/markdown",
+          long_description=(open(long_description).read()),
           license=meta.__LICENSE__,
           url=meta.__URL__,
           download_url=meta.__DOWNLOAD_URL__,
