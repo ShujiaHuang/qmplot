@@ -15,7 +15,7 @@ meta = Namespace(
     __URL__="https://github.com/ShujiaHuang/qmplot",
     __LICENSE__="BSD (3-clause)",
     __DOWNLOAD_URL__="https://github.com/ShujiaHuang/qmplot",
-    __VERSION__="0.3.1",
+    __VERSION__="0.3.2",
 )
 
 try:
