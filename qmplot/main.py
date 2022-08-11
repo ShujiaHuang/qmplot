@@ -20,6 +20,14 @@ def parse_commandline_args():
                            help="The prefix of output file")
     cmdparser.add_argument("--outfiletype", dest="outfiletype", type=str, required=False, default="png",
                            help="The file type of output plot. [png]")
+
+    cmdparser.add_argument("--chrom", dest="chrom", type=str, default="#CHROM", 
+                           help="The column name for sequence ID. [#CHROM]")
+    cmdparser.add_argument("--pos", dest="pos", type=str, default="POS",
+                           help="The column name for sequence position. [POS]")
+    cmdparser.add_argument("--pvalue", dest="pv", type=str, default="P",
+                           help="The column name for the P value ID. [P]")
+
     cmdparser.add_argument("-T", "--title", dest="title", type=str, help="Title of plot", default=None)
     cmdparser.add_argument("-P", "--sign-mark-pvalue", dest="sign_pvalue", type=float,
                            help="Genome wide significant p-value sites. [1e-6]", default=1e-6)
@@ -52,16 +60,16 @@ def main():
     # loading data
     data = pd.read_table(kwargs.input, sep="\t")
     data = data.dropna(how="any", axis=0)  # clean data
-    data[["#CHROM"]] = data[["#CHROM"]].astype(str)
+    data[[kwargs.chrom]] = data[[kwargs.chrom]].astype(str)
 
-    if data["#CHROM"][0].startswith("chr"):
+    if data[kwargs.chrom][0].startswith("chr"):
         print("[WARNING] Find 'chr' is the start characters of chromosomal name, this program will "
-              "enhance cut the 3 characters when generate manhattan plot. If you want to keep the "
+              "enhance cut the first 3 characters when generate manhattan plot. If you want to keep the "
               "original name please write new Python codes by using qmplot as a Python package and "
               "import manhattanplot() function from qmplot then generate the plot by yourself. You "
               "can find more detail of tutorials in github: <https://github.com/ShujiaHuang/qmplot>.")
 
-    data["#CHROM"] = data["#CHROM"].map((lambda x: x[3:] if x.startswith("chr") else x))
+    data[kwargs.chrom] = data[kwargs.chrom].map((lambda x: x[3:] if x.startswith("chr") else x))
 
     # common parameters for plotting
     plt_params = {
@@ -76,9 +84,9 @@ def main():
     plt.rcParams.update(plt_params)
 
     # Create a manhattan plot
-    f, ax = plt.subplots(figsize=(12, 4), facecolor='w', edgecolor='k')
+    f, ax = plt.subplots(figsize=(12, 4), facecolor='w', edgecolor='k', constrained_layout=True)
     xtick = set(list(map(str, range(1, 15))) + ['16', '18', '20', '22', 'X'])
-    manhattanplot(data=data,
+    manhattanplot(data=data, chrom=kwargs.chrom, pos=kwargs.pos, pv=kwargs.pv,
                   marker=".",
 
                   sign_marker_p=kwargs.sign_pvalue,  # Genome wide significant p-value
@@ -104,10 +112,10 @@ def main():
         plt.show()
 
     # Create a Q-Q plot
-    f, ax = plt.subplots(figsize=(6, 6), facecolor="w", edgecolor="k")
-    qqplot(data=data["P"],
-           marker="o",
+    f, ax = plt.subplots(figsize=(6, 6), facecolor="w", edgecolor="k", constrained_layout=True)
+    qqplot(data=data[kwargs.pv],
            title=kwargs.title,
+           marker="o",
            xlabel=r"Expected $-log_{10}{(P)}$",
            ylabel=r"Observed $-log_{10}{(P)}$",
            ax=ax)
