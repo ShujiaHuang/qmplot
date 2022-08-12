@@ -265,8 +265,10 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
 
         color = next(colors)
         for i, (site, p_value) in enumerate(zip(group_data[pos], group_data[pv])):
-            y_value = -np.log10(p_value) if logp else p_value
+            if p_value == 0:
+                p_value = 1e-300  # set it to a very small value if p-value is 0.
 
+            y_value = -np.log10(p_value) if logp else p_value
             x.append(last_xpos + site)
             y.append(y_value)
 
