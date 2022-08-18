@@ -1,5 +1,5 @@
-qmplot -I data/gwas_plink_result.tsv -T Test --dpi 72 -O test
-qmplot -I data/gwas_plink_result.tsv --chrom "#CHROM" --pos "POS" --pvalue "P" -T Test --dpi 72 -O test
+qmplot -I data/gwas_plink_result.tsv -M ID -T Test --dpi 72 -O test
+qmplot -I data/gwas_plink_result.tsv --chrom "#CHROM" --pos "POS" --pvalue "P" -M ID -T Test --dpi 72 -O test
 
 qmplot -I data/gwas_plink_result.tsv -T Test --dpi 72 -O test --display
 

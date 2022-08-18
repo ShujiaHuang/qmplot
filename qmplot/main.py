@@ -30,10 +30,10 @@ def parse_commandline_args():
 
     cmdparser.add_argument("-T", "--title", dest="title", type=str, help="Title of plot", default=None)
     cmdparser.add_argument("-P", "--sign-mark-pvalue", dest="sign_pvalue", type=float,
-                           help="Genome wide significant p-value sites. [1e-6]", default=1e-6)
+                           help="Genome wide significant p-value sites. [5e-8]", default=5e-8)
     cmdparser.add_argument("-M", "--top-sign-signal-mark-id", dest="m_id", type=str,
                            help="A string denoting the column name for which you want to annotate "
-                                "the top Significant loci. Default: \"ID\"(PLINK2.x)", default="ID")
+                                "the top Significant loci. Default: None", default=None)
 
     cmdparser.add_argument("--ld-block-size", dest="ld_block_size", type=int, default=500000,
                            help="The size of LD block for finding top SNPs. default: 500000")
@@ -101,7 +101,7 @@ def main():
                   sign_line_cols=["#D62728", "#2CA02C"],
                   hline_kws={"linestyle": "--", "lw": 1.3},
 
-                  is_annotate_topsnp=True,
+                  is_annotate_topsnp=True if kwargs.m_id is not None else False,
                   ld_block_size=kwargs.ld_block_size,
                   text_kws={"fontsize": 12,  # The fontsize of annotate text
                             "arrowprops": dict(arrowstyle="-", color="k", alpha=0.6)},
