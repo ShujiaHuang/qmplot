@@ -59,7 +59,7 @@ def main():
 
     # loading data
     data = pd.read_table(kwargs.input, sep="\t")
-    data = data.dropna(how="any", axis=0)  # clean data
+    data = data[[kwargs.chrom, kwargs.pos, kwargs.pv, kwargs.m_id]].dropna(how="any", axis=0)  # clean data
     data[[kwargs.chrom]] = data[[kwargs.chrom]].astype(str)
 
     if data[kwargs.chrom][0].startswith("chr"):
