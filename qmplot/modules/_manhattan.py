@@ -271,8 +271,8 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
             y_value = -np.log10(p_value) if logp else p_value
             x.append(last_xpos + site)
             y.append(y_value)
-
             c.append(sign_marker_color if ((sign_marker_p is not None) and (p_value <= sign_marker_p)) else color)
+
             if (snp is not None) and (sign_marker_p is not None) and (p_value <= sign_marker_p):
                 snp_id = group_data[snp].iloc[i]
                 sign_snp_sites.append([last_xpos + site, y_value, snp_id])  # x_pos, y_value, text
@@ -301,8 +301,12 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
             x=x)
 
         # reset color for all SNPs which nearby the top SNPs.
+        xs, ys = [], []
         for i in index:
-            ax.scatter(x[i], y[i], c=sign_marker_color, alpha=alpha, edgecolors="none", **kwargs)
+            xs.append(x[i])
+            ys.append(y[i])
+
+        ax.scatter(xs, ys, c=sign_marker_color, alpha=alpha, edgecolors="none", **kwargs)
 
     highlight_other_SNPs_kwargs = dict() if highlight_other_SNPs_kwargs is \
                                             None else highlight_other_SNPs_kwargs
