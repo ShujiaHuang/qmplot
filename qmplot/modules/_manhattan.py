@@ -26,6 +26,7 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
                   sign_marker_p=None, sign_marker_color="r",
                   is_annotate_topsnp=False, highlight_other_SNPs_indcs=None,
                   highlight_other_SNPs_color="r", highlight_other_SNPs_kwargs=None,
+                  annotate_highlighted_SNPs=False,
                   text_kws=None, ld_block_size=50000, **kwargs):
     """Creates a manhattan plot from PLINK assoc output (or any data frame with chromosome, position, and p-value).
 
@@ -122,6 +123,9 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
 
     highlight_other_SNPs_kwargs=None : Dict, or None, optional
         Dict of keyword arguments passed to the command highlighting the other SNPs.
+
+    annotate_highlighted_SNPs=False : bool, optional
+        Set to True to annotated SNVs highlted with "highlight_other_SNPs_indcs".
 
     text_kws: key, value pairings, or None, optional
         keyword arguments for plotting in`` matplotlib.axes.Axes.text(x, y, s, fontdict=None, **kwargs)``
@@ -316,6 +320,12 @@ def manhattanplot(data, chrom="#CHROM", pos="POS", pv="P", snp="ID", logp=True, 
         for i in highlight_other_SNPs_indcs:
             ax.scatter(x[i], y[i], c=highlight_other_SNPs_color,
                        alpha=alpha, edgecolors="none", **highlight_other_SNPs_kwargs)
+        if annotate_highlighted_SNPs and (snp is not None): # to annotate highlighted SNVs
+            texts = [] 
+            for i in highlight_other_SNPs_indcs:
+                snp_id = data[snp].iloc[i]
+                texts.append(ax.text(x[i], y[i], snp_id)) # x_pos, y_value, text (snp ID)
+            adjust_text(texts, ax=ax, **text_kws)
 
     # Add GWAS significant lines
     if "color" in hline_kws:
